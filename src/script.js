@@ -210,6 +210,10 @@ window.addEventListener('resize', (event) => {
 
 })
 
+function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
 const clock = new THREE.Clock()
 
 const tick = () => {
@@ -223,11 +227,10 @@ const tick = () => {
 
     //console.log(scene)
 
-    if(model_tlight){
+    var rand = randomIntFromInterval(50,110)
 
-
-
-    }
+    spotLight.intensity = rand //100
+    directionalStreetLight.intensity = rand/120
 
     //console.log(model)
     if(model){
