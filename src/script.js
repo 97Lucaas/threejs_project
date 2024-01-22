@@ -9,7 +9,7 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
-//const light = new THREE.AmbientLight( 0x404040,100 ); // soft white light
+const light = new THREE.AmbientLight( 0x404040,100 ); // soft white light ------------------------------
 //scene.add( light );
 
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -50,6 +50,69 @@ loader.load( 'street_light.glb', function ( gltf ) {
 	console.error( error );
 
 } );
+
+let car;
+
+loader.load( 'car.glb', function ( gltf ) {
+
+    car = gltf.scene
+	scene.add( car );
+    car.position.x = -3;
+    car.position.y = 0.7;
+    car.position.z = -3;
+    car.scale.x = 0.4
+    car.scale.y = 0.4
+    car.scale.z = 0.4
+    //car.rotation.y = Math.PI + Math.PI / 2;
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
+const breakStopLightRight = new THREE.PointLight( 0xff0000, 1 ); //feu stop droite
+scene.add( breakStopLightRight );
+breakStopLightRight.position.set(-3.5,1,-5.5)
+
+const breakStopLightLeft = new THREE.PointLight( 0xff0000, 1 ); //feu stop gauche
+scene.add( breakStopLightLeft );
+breakStopLightLeft.position.set(-2.5,1,-5.5)
+
+const frontightRight = new THREE.PointLight( 0xffffff, 1 ); //lumière feu droite
+scene.add( frontightRight );
+frontightRight.position.set(-3.5,0.7,-0.8)
+
+const frontLightLeft = new THREE.PointLight( 0xffffff, 1 ); //lumière feu gauche
+scene.add( frontLightLeft );
+frontLightLeft.position.set(-2.5,0.7,-0.8)
+
+const luRight = new THREE.SpotLight( 0xffffff ); //lueur feu droite
+luRight.position.set(-3.5,0.7,-0.8);
+luRight.angle = Math.PI/9
+luRight.intensity = 100;
+luRight.penumbra = 1;
+luRight.target.position.set(-3.5,0.3,4)
+luRight.castShadow = true
+
+scene.add(luRight)
+scene.add( luRight.target ); 
+
+const luLeft = new THREE.SpotLight( 0xffffff ); //lueur feu gauche
+luLeft.position.set( -2.5,0.7,-0.8 );
+luLeft.angle = Math.PI/9
+luLeft.intensity = 100;
+luLeft.penumbra = 1;
+luLeft.target.position.set(-2.5,0.3,4)
+luLeft.castShadow = true
+
+scene.add(luLeft)
+scene.add( luLeft.target ); 
+
+const helper = new THREE.SpotLightHelper(luRight) //helper
+//scene.add(helper)
+
+
 
 const directionalStreetLight = new THREE.PointLight( 0xffffff, 1, 100 );
 scene.add( directionalStreetLight );
