@@ -113,7 +113,6 @@ const helper = new THREE.SpotLightHelper(luRight) //helper
 //scene.add(helper)
 
 
-
 const directionalStreetLight = new THREE.PointLight( 0xffffff, 1, 100 );
 scene.add( directionalStreetLight );
 directionalStreetLight.position.set(0.5,5.2,0)
