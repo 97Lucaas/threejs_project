@@ -15,7 +15,7 @@ const scene = new THREE.Scene()
 const directionalLight = new THREE.DirectionalLight( 0xffffff, 1 );
 //scene.add( directionalLight );
 const directionalLight2 = new THREE.DirectionalLight( 0xffffff, 1 );
-scene.add( directionalLight2 );
+//scene.add( directionalLight2 );
 directionalLight2.position.x = -5;
 directionalLight2.position.z = -5;
 
@@ -36,6 +36,39 @@ loader.load( 'poubelle.glb', function ( gltf ) {
 
 } );
 
+let model_street_light;
+
+loader.load( 'street_light.glb', function ( gltf ) {
+
+    model_street_light = gltf.scene
+	scene.add( model_street_light );
+    model_street_light.position.x = 2;
+    model_street_light.rotation.y = Math.PI + Math.PI / 2;
+
+}, undefined, function ( error ) {
+
+	console.error( error );
+
+} );
+
+const directionalStreetLight = new THREE.PointLight( 0xffffff, 1, 100 );
+scene.add( directionalStreetLight );
+directionalStreetLight.position.set(0.5,5.2,0)
+
+const spotLight = new THREE.SpotLight( 0xffffff );
+spotLight.position.set( 0.5, 5.3, 0 );
+spotLight.angle = Math.PI/9
+spotLight.intensity = 100;
+spotLight.penumbra = 1;
+spotLight.target.x = 0.5
+spotLight.castShadow = true
+
+scene.add(spotLight)
+scene.add( spotLight.target ); 
+
+const spotLightHelper = new THREE.PointLightHelper( directionalStreetLight );
+//scene.add( spotLightHelper );
+
 let model_tlight;
 
 loader.load( 'traffic_light.glb', function ( gltf ) {
@@ -45,7 +78,7 @@ loader.load( 'traffic_light.glb', function ( gltf ) {
     //gltf.scene.children[0].position.set(-1, 0, 0)
     gltf.scene.position.set(-2.5, 0, 3.8)
     model_tlight = gltf.scene
-    console.log(gltf.scene)
+    //console.log(gltf.scene)
 	scene.add( model_tlight );
 
     set_to_red(model_tlight)
@@ -56,13 +89,13 @@ loader.load( 'traffic_light.glb', function ( gltf ) {
 
 } );
 
-const directionalLightRed = new THREE.PointLight( 0xFF3D3D, 1, 100 );
+const directionalLightRed = new THREE.PointLight( 0xFF3D3D, 1.5, 100 );
 scene.add( directionalLightRed );
 directionalLightRed.position.set(-1.45,2.8,-0.2)
-const directionalLightYellow = new THREE.PointLight( 0xFFFB40, 1 , 100);
+const directionalLightYellow = new THREE.PointLight( 0xFFFB40, 1.5 , 100);
 scene.add( directionalLightYellow );
 directionalLightYellow.position.set(-1.45,2.45,-0.2)
-const directionalLightGreen = new THREE.PointLight( 0x63FF63, 1 , 100);
+const directionalLightGreen = new THREE.PointLight( 0x63FF63, 1.5 , 100);
 scene.add( directionalLightGreen );
 directionalLightGreen.position.set(-1.45,2.05,-0.2)
 
@@ -77,7 +110,7 @@ function set_to_red(el){
     directionalLightRed.visible = true
     directionalLightYellow.visible = false
     directionalLightGreen.visible = false
-    console.log(el.children[2])
+    //console.log(el.children[2])
     setTimeout(function() {
         set_to_green(el);
     }, 5000);
@@ -106,7 +139,7 @@ function set_to_green(el){
 }
 
 const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(10,10),
+    new THREE.PlaneGeometry(20,20),
     new THREE.MeshStandardMaterial({
         color:'#444444',
         metalness:0,
