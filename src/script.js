@@ -228,9 +228,15 @@ const tick = () => {
     //console.log(scene)
 
     var rand = randomIntFromInterval(50,110)
+    var randBug = randomIntFromInterval(1,4)
 
-    spotLight.intensity = rand //100
-    directionalStreetLight.intensity = rand/120
+    if(randBug == 2){
+        spotLight.intensity = 0 //100
+        directionalStreetLight.intensity = 0
+    }else{
+        spotLight.intensity = rand //100
+        directionalStreetLight.intensity = rand/120
+    }
 
     //console.log(model)
     if(model){
